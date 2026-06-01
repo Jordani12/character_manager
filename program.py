@@ -1,5 +1,6 @@
 import datetime, time
 import os, sys
+import random
 
 # --------------------------------------------------------------
 # Auxiliar functions
@@ -11,6 +12,7 @@ def clean_terminal():
 # --------------------------------------------------------------
 # Class Heritage
 # --------------------------------------------------------------
+
 
 class Character:
     def __init__(self, nome):
@@ -31,6 +33,9 @@ class Mage(Character):
         super().__init__(nome)
         self.hp = self.initial_hp
 
+    def initial_text(self):
+        print(f"{self.nome} é reconhecido como um grande MAGO.")
+
 class Warrior(Character):
     hp_per_nivel = 10
     initial_hp = 100
@@ -39,6 +44,9 @@ class Warrior(Character):
         super().__init__(nome)
         self.hp = self.initial_hp
 
+    def initial_text(self):
+        print(f"{self.nome} é reconhecido como um honrado GUERREIRO.")
+
 class Archer(Character):
     hp_per_nivel = 8
     initial_hp = 80
@@ -46,23 +54,61 @@ class Archer(Character):
     def __init__(self, nome):
         super().__init__(nome)
         self.hp = self.initial_hp
+    
+    def initial_text(self):
+        print(f"{self.nome} é reconhecido como um valioso ARQUEIRO.")
 
-nome_player = input("Bem vindo ao RPG!\n\nCrie um nome para começar: ")
-classe_player = input("Agora escolha sua classe: " \
-                    "\n1 - Mago" \
-                    "\n2 - Guerreiro" \
-                    "\n3 - Arqueiro").upper()
+# --------------------------------------------------------------
+# User Interaction
+# --------------------------------------------------------------
 
-def class_choose(info):
+classes = {Mage, Warrior, Archer}
+
+def random_class():
+    random_choice = random.choice(classes)
+    return random_choice
+
+def class_choice(info):
     match info:
         case "1" | "MAGO":
-            return Mage(nome_player)
+            _class = Mage(name_player)
+            _class.initial_text()
+            time.sleep(2)
+            return _class
         case "2" | "GUERREIRO":
-            return Warrior(nome_player)
+            _class = Warrior(name_player)
+            _class.initial_text()
+            time.sleep(2)
+            return _class
         case "3" | "ARQUEIRO":
-            return Archer(nome_player)
+            _class = Archer(name_player)
+            _class.initial_text()
+            time.sleep(2)
+            return _class
         case _:
-            print("Nenhuma classe foi escolhida")
-            return 0
+            print("Nenhuma classe foi escolhida." \
+            "\nSerá escolhida uma classe aleatória entre as 3.")
+            _class = random_class()(name_player)
+            _class.initial_text()
+            time.sleep(2)
+            return _class
 
-player = class_choose(classe_player)
+clean_terminal()
+
+name_player = input("Bem vindo ao RPG!\n\nCrie um nome para começar: ")
+class_player = input("Agora escolha sua classe: " \
+                    "\n1 - Mago" \
+                    "\n2 - Guerreiro" \
+                    "\n3 - Arqueiro" \
+                    "\n\nEscolha: ").upper()
+
+player = class_choice(class_player)
+
+clean_terminal()
+
+while True:
+    choice = input("1. Listar personagens" \
+                "\n2. Criar personagem" \
+                "\n3. Subir de nível" \
+                "\n4. Filtrar por classe" \
+                "\n5. Sair").upper()
