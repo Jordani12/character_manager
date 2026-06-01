@@ -1,0 +1,11 @@
+1. Listar personagens
+2. Criar personagem
+3. Subir de nível
+4. Filtrar por classe
+5. Sair
+
+Listar todos os personagens, mostrando só os vivos se quiser filtrar (list comprehension)
+
+Registrar a data de criação de cada personagem (datetime)
+
+HP por classe: Guerreiro começa com 100 HP (+10 por nível), Mago com 60 HP (+5), Arqueiro com 80 HP (+8).
