@@ -6,6 +6,6 @@
 
 Listar todos os personagens, mostrando só os vivos se quiser filtrar (list comprehension)
 
-Registrar a data de criação de cada personagem (datetime)
+Criar a interação de filtro
 
-HP por classe: Guerreiro começa com 100 HP (+10 por nível), Mago com 60 HP (+5), Arqueiro com 80 HP (+8).
+Testar
