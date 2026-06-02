@@ -3,8 +3,72 @@
         "id": 1,
         "name": "di0ro",
         "class": "Guerreiro",
+        "hp": 110,
+        "level": 2,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 2,
+        "name": "teste",
+        "class": "Arqueiro",
+        "hp": 80,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 3,
+        "name": "teste2",
+        "class": "Mago",
+        "hp": 60,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 4,
+        "name": "teste3",
+        "class": "Guerreiro",
         "hp": 100,
         "level": 1,
-        "created_in": "2026-06-01T22:14:33"
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 5,
+        "name": "teste4",
+        "class": "Mago",
+        "hp": 60,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 6,
+        "name": "teste5",
+        "class": "Arqueiro",
+        "hp": 80,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 7,
+        "name": "teste6",
+        "class": "Mago",
+        "hp": 60,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 8,
+        "name": "teste7",
+        "class": "Arqueiro",
+        "hp": 80,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
+    },
+    {
+        "id": 9,
+        "name": "Sla",
+        "class": "Mago",
+        "hp": 60,
+        "level": 1,
+        "created_in": "2026-06-02T18:14:24.699948"
     }
 ]
