@@ -14,6 +14,10 @@ def clean_terminal():
 def user_go_by():
     input("\nAperte enter para voltar.\n\n")
 
+def date_from_json(date):
+    _date_from_json = datetime.fromisoformat(date)
+    return _date_from_json.strftime("%d/%m/%Y %H:%M")
+
 # --------------------------------------------------------------
 # Class Heritage
 # --------------------------------------------------------------
@@ -118,14 +122,12 @@ def add_new_character(data, name, classe):
     data.append(character.para_dict())
     character_info_save(data)
 
-def show_characters(data):
+def show_all_characters(data):
     clean_terminal()
     for c in data:
-        date_from_json = datetime.fromisoformat(c['created_in'])
-        exibition_date = date_from_json.strftime("%d/%m/%Y %H:%M")
         print("\n")
         print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
-              f"\nFoi criado em {exibition_date}")
+              f"\nFoi criado em {date_from_json(c['created_in'])}")
     user_go_by()
 
 def show_characters_alive(data):
@@ -133,14 +135,9 @@ def show_characters_alive(data):
     vivos = [c for c in data if c['hp'] > 0]
     for c in vivos:
         print("\n")
-        print(c['nome'])
-
-def show_characters_dead(data):
-    clean_terminal()
-    mortos = [c for c in data if c['hp'] == 0]
-    for c in mortos:
-        print("\n")
-        print(c['nome'])
+        print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
+              f"\nFoi criado em {date_from_json(c['created_in'])}")
+    user_go_by()
     
 # --------------------------------------------------------------
 # User Interaction
@@ -169,11 +166,9 @@ def filter_characters_per_class(data):
     clean_terminal()
     for c in data:
         if c['class'] == choice:
-            date_from_json = datetime.fromisoformat(c['created_in'])
-            exibition_date = date_from_json.strftime("%d/%m/%Y %H:%M")
             print("\n")
             print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
-                f"\nFoi criado em {exibition_date}")
+                f"\nFoi criado em {date_from_json(c['created_in'])}")
     
     user_go_by()
 
@@ -191,7 +186,8 @@ def character_level_up(data):
                 p = Archer(d['id'], d['name'])
 
         p.level = d['level']
-        p.hp    = d['hp']
+        p.hp = d['hp']
+        p.created_in = d['created_in']
 
         characters.append(p)
 
@@ -209,7 +205,7 @@ def character_level_up(data):
 
     for p in characters:
         if p.id == choice:
-            p.level_up()  # só esse sobe
+            p.level_up()
             datas = [p.para_dict() for p in characters]
             character_info_save(datas)
             clean_terminal()
@@ -266,7 +262,14 @@ def class_choice(data, info, name_player):
 def user_choice(info, data):
     match info:
         case "1" | "LISTAR":
-            show_characters(data)
+            choice_filter = input("Quer ver somente os vivos?" \
+                            "\n1 - Sim" \
+                            "\n2 - Não" \
+                            "\n\nEscolha: ").upper()
+            if choice_filter == "1" or choice_filter == "SIM":
+                show_characters_alive(data)
+            else:
+                show_all_characters(data)
             return True
         case "2" | "CRIAR":
             create_character(data)
