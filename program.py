@@ -143,7 +143,7 @@ def show_characters_alive(data):
 # User Interaction
 # --------------------------------------------------------------
 
-classes = {Mage, Warrior, Archer}
+classes = [Mage, Warrior, Archer]
 
 def filter_characters_per_class(data):
     clean_terminal()
@@ -184,6 +184,9 @@ def character_level_up(data):
                 p = Mage(d['id'], d['name'])
             case "Arqueiro":
                 p = Archer(d['id'], d['name'])
+            case _:
+                print(f"Classe desconhecida: {d['class']}, pulando.")
+                continue
 
         p.level = d['level']
         p.hp = d['hp']
@@ -282,6 +285,11 @@ def user_choice(info, data):
             return True
         case "5" | "SAIR":
             return False    
+        case _:
+            clean_terminal()
+            print("Digite algo válido!")
+            user_go_by()
+            return True
 
 clean_terminal()
 
