@@ -2,7 +2,7 @@ from datetime import datetime
 import os, sys, random, time, json
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
-CHARACTER_DATA = os.path.join(FOLDER, "characters.json")
+CHARACTER_DATA = os.path.join(FOLDER, "characters.json") 
 
 # --------------------------------------------------------------
 # Auxiliar functions
@@ -11,10 +11,12 @@ CHARACTER_DATA = os.path.join(FOLDER, "characters.json")
 def clean_terminal():
     os.system('cls')
 
+def user_go_by():
+    input("\nAperte enter para voltar.\n\n")
+
 # --------------------------------------------------------------
 # Class Heritage
 # --------------------------------------------------------------
-
 
 class Character:
     def __init__(self, id, name):
@@ -51,8 +53,8 @@ class Mage(Character):
         self.classe = self._classe
 
     def initial_text(self):
+        clean_terminal()
         print(f"{self.name} é reconhecido como um grande MAGO.")
-
 
 class Warrior(Character):
     hp_per_nivel = 10
@@ -65,6 +67,7 @@ class Warrior(Character):
         self.classe = self._classe
 
     def initial_text(self):
+        clean_terminal()
         print(f"{self.name} é reconhecido como um honrado GUERREIRO.")
 
 class Archer(Character):
@@ -78,11 +81,13 @@ class Archer(Character):
         self.classe = self._classe
     
     def initial_text(self):
+        clean_terminal()
         print(f"{self.name} é reconhecido como um valioso ARQUEIRO.")
 
 # --------------------------------------------------------------
 # Data Functions
 # --------------------------------------------------------------
+
 
 def load_characters():
     try:
@@ -114,17 +119,27 @@ def add_new_character(data, name, classe):
     character_info_save(data)
 
 def show_characters(data):
+    clean_terminal()
     for c in data:
         date_from_json = datetime.fromisoformat(c['created_in'])
         exibition_date = date_from_json.strftime("%d/%m/%Y %H:%M")
         print("\n")
         print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
               f"\nFoi criado em {exibition_date}")
-    input("\nAperte enter para voltar.\n\n")
+    user_go_by()
 
 def show_characters_alive(data):
+    clean_terminal()
     vivos = [c for c in data if c['hp'] > 0]
     for c in vivos:
+        print("\n")
+        print(c['nome'])
+
+def show_characters_dead(data):
+    clean_terminal()
+    mortos = [c for c in data if c['hp'] == 0]
+    for c in mortos:
+        print("\n")
         print(c['nome'])
     
 # --------------------------------------------------------------
@@ -133,7 +148,37 @@ def show_characters_alive(data):
 
 classes = {Mage, Warrior, Archer}
 
+def filter_characters_per_class(data):
+    clean_terminal()
+    choice = input("Você quer ver os personagens de qual classe?" \
+                "\n1 - Mago" \
+                "\n2 - Guerreiro" \
+                "\n3 - Arqueiro" \
+                "\n\nEscolha: ").upper()
+    
+    match choice:
+        case "1" | "MAGO":
+            choice = "Mago"
+        case "2" | "GUERREIRO":
+            choice = "Guerreiro"
+        case "3" | "ARQUEIRO":
+            choice = "Arqueiro"
+        case _:
+            print("Nenhuma classe foi escolhida.")
+    
+    clean_terminal()
+    for c in data:
+        if c['class'] == choice:
+            date_from_json = datetime.fromisoformat(c['created_in'])
+            exibition_date = date_from_json.strftime("%d/%m/%Y %H:%M")
+            print("\n")
+            print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
+                f"\nFoi criado em {exibition_date}")
+    
+    user_go_by()
+
 def character_level_up(data):
+    clean_terminal()
     characters = []
     
     for d in data:
@@ -151,9 +196,10 @@ def character_level_up(data):
         characters.append(p)
 
     for c in characters:
+        print("\n")
         print(f"{c.id} - {c.name} | Nível {c.level} | HP {c.hp}")
         
-    choice = input("\nDigite o ID do personagem: ")
+    choice = input("\nDigite o ID do personagem que quer upar: ")
 
     try:
         choice = int(choice)
@@ -166,14 +212,15 @@ def character_level_up(data):
             p.level_up()  # só esse sobe
             datas = [p.para_dict() for p in characters]
             character_info_save(datas)
+            clean_terminal()
             input("\nLEVEL UP !!!!\n\nAperte enter para voltar.\n\n")
             return
 
     print("Personagem não encontrado.")
-    input("\nAperte enter para voltar.\n\n")
+    user_go_by()
 
 def create_character(data):
-    name_player = input("Bem vindo ao RPG!\n\nCrie um nome para começar: ")
+    name_player = input("Crie um nome para seu personagem: ")
     clean_terminal()
     class_player = input("Agora escolha sua classe: " \
                         "\n1 - Mago" \
@@ -186,13 +233,11 @@ def create_character(data):
 
     add_new_character(data, player.name, player.classe)
 
-
 def random_class():
     random_choice = random.choice(classes)
     return random_choice
 
 def class_choice(data, info, name_player):
-    clean_terminal()
     new_id = len(data) + 1
     match info:
         case "1" | "MAGO":
@@ -229,14 +274,25 @@ def user_choice(info, data):
         case "3" | "SUBIR":
             character_level_up(data)
             return True
-        #case "4" | "FILTRAR":
+        case "4" | "FILTRAR":
+            filter_characters_per_class(data)
+            return True
         case "5" | "SAIR":
             return False    
 
 clean_terminal()
 
 data = load_characters()
-create_character(data)
+
+print("Bem vindo ao RPG!\n")
+time.sleep(1)
+create_choice = input("Você deseja criar um personagem?" \
+                "\n1 - Sim" \
+                "\n2 - Não"
+                "\n\nEscolha: ")
+
+if create_choice == "1" or create_choice == "SIM":
+    create_character(data)
 
 while True:
     clean_terminal()
@@ -249,5 +305,5 @@ while True:
     
     data = load_characters()
 
-    if not user_choice(choice, data):  # ✅ se retornar False, sai
+    if not user_choice(choice, data):
         break
