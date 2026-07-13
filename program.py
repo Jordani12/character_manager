@@ -1,5 +1,6 @@
 from datetime import datetime
 import os, sys, random, time, json
+from collections import Counter
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
 CHARACTER_DATA = os.path.join(FOLDER, "characters.json") 
@@ -164,12 +165,11 @@ def filter_characters_per_class(data):
             print("Nenhuma classe foi escolhida.")
     
     clean_terminal()
-    for c in data:
-        if c['class'] == choice:
-            print("\n")
-            print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
+
+    for c in filter(lambda c: c['class'] == choice, data):
+        print(f"{c['name']} na classe {c['class']} está no level {c['level']} com {c['hp']} de HP"
                 f"\nFoi criado em {date_from_json(c['created_in'])}")
-    
+
     user_go_by()
 
 def character_level_up(data):
@@ -205,15 +205,13 @@ def character_level_up(data):
     except ValueError:
         print("ID inválido.")
         return
-
-    for p in characters:
-        if p.id == choice:
-            p.level_up()
-            datas = [p.para_dict() for p in characters]
-            character_info_save(datas)
-            clean_terminal()
-            input("\nLEVEL UP !!!!\n\nAperte enter para voltar.\n\n")
-            return
+    for p in filter(lambda p: p.id == choice, characters):
+        p.level_up()
+        datas = [p.para_dict() for p in characters]
+        character_info_save(datas)
+        clean_terminal()
+        input("\nLEVEL UP !!!!\n\nAperte enter para voltar.\n\n")
+        return
 
     print("Personagem não encontrado.")
     user_go_by()
