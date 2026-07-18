@@ -2,6 +2,8 @@ from datetime import datetime
 import os, sys, random, time, json
 from collections import Counter
 
+import Player
+
 FOLDER = os.path.dirname(os.path.abspath(__file__))
 CHARACTER_DATA = os.path.join(FOLDER, "characters.json") 
 
