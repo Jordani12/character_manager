@@ -19,6 +19,9 @@ class Character:
         self.hp += self.hp_per_nivel
         print(f"{self.name} subiu para o nível {self.level}! HP: {self.hp}")
 
+    def take_damage(self, damage):
+        self.hp -= damage
+
     def para_dict(self):
         return {
             "id":         self.id,

@@ -1,6 +1,6 @@
-import secrets, time, json, os
+import secrets, json, os
 from collections import Counter
-
+from time import sleep
 import Player, utils
 
 
@@ -161,24 +161,24 @@ def class_choice(data, info, name_player):
         case "1" | "MAGO":
             _class = Player.Mage(new_id, name_player)
             _class.initial_text()
-            time.sleep(2)
+            sleep(2)
             return _class
         case "2" | "GUERREIRO":
             _class = Player.Warrior(new_id, name_player)
             _class.initial_text()
-            time.sleep(2)
+            sleep(2)
             return _class
         case "3" | "ARQUEIRO":
             _class = Player.Archer(new_id, name_player)
             _class.initial_text()
-            time.sleep(2)
+            sleep(2)
             return _class
         case _:
             print("Nenhuma classe foi escolhida." \
             "\nSerá escolhida uma classe aleatória entre as 3.")
             _class = random_class()(new_id, name_player)
             _class.initial_text()
-            time.sleep(2)
+            sleep(2)
             return _class
 
 def user_choice(info, data):
@@ -215,7 +215,7 @@ utils.clean_terminal()
 data = load_characters()
 
 print("Bem vindo ao RPG!\n")
-time.sleep(1)
+sleep(1)
 create_choice = input("Você deseja criar um personagem?" \
                 "\n1 - Sim" \
                 "\n2 - Não"
